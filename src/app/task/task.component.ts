@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Task } from '../objects/Task';
 
 @Component({
   selector: 'app-task',
@@ -7,9 +8,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TaskComponent implements OnInit {
 
-  constructor() { }
+  @Input() task : Task;
 
-  ngOnInit() {
+  isEditing : boolean = false;
+  editingText : string;
+
+  constructor() { 
+    
   }
 
+  ngOnInit() {
+    
+  }
+  
+  editing() {
+    this.isEditing = !this.isEditing;
+    this.editingText = this.task.name;
+  }
+
+  editingSave() {
+    if (this.editingText.trim().length > 0) {
+      this.task.name = this.editingText;
+      this.isEditing = !this.isEditing;
+    }
+  }
 }
