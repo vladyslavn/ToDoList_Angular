@@ -6,6 +6,9 @@ import { AppComponent } from './app.component';
 import { TaskComponent } from './task/task.component';
 import { NewTaskComponent } from './new-task/new-task.component';
 import { TasksComponent } from './tasks/tasks.component';
+import { ListComponent } from './list/list.component';
+import { ListsComponent } from './lists/lists.component';
+import { NewListComponent } from './new-list/new-list.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +16,9 @@ import { TasksComponent } from './tasks/tasks.component';
     TaskComponent,
     NewTaskComponent,
     TasksComponent,
+    ListComponent,
+    ListsComponent,
+    NewListComponent,
   ],
   imports: [
     BrowserModule,

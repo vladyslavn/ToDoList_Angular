@@ -9,12 +9,13 @@ import { Task } from '../objects/Task';
 export class TasksComponent implements OnInit {
 
   tasks : Array<Task> = new Array();
+  
   constructor() { }
 
   ngOnInit() {
   }
 
-  delete(task : Task) {
+  deleteTask(task : Task) {
     this.tasks.splice(this.tasks.indexOf(task), 1);
   }
 

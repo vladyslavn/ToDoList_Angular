@@ -1,5 +1,11 @@
 <h2>Tasks</h2>
 
-<app-task (delete)="delete($event)" *ngFor="let task of tasks" [task]="task"></app-task>
+<app-task 
+    (deleteTask)="deleteTask($event)" 
+    *ngFor="let task of tasks" 
+    [task]="task">
+</app-task>
 
-<app-new-task (createTask)="createTask($event)"></app-new-task>
+<app-new-task 
+    (createTask)="createTask($event)">
+</app-new-task>
