@@ -12,9 +12,13 @@ export class TasksComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    for (let i : number = 0; i < 10; i++) {
-      this.tasks.push(new Task(i, 1, "Call" + i, i % 2 == 0));
-    }
   }
 
+  delete(task : Task) {
+    this.tasks.splice(this.tasks.indexOf(task), 1);
+  }
+
+  createTask(text : string) {
+    this.tasks.push(new Task(100, 1, text, false));
+  }
 }

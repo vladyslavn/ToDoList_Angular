@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Task } from '../objects/Task';
 
 @Component({
@@ -9,6 +9,7 @@ import { Task } from '../objects/Task';
 export class TaskComponent implements OnInit {
 
   @Input() task : Task;
+  @Output() delete = new EventEmitter<Task> ();
 
   isEditing : boolean = false;
   editingText : string;
@@ -21,6 +22,10 @@ export class TaskComponent implements OnInit {
     
   }
   
+  deleting() {
+    this.delete.emit(this.task);
+  }
+
   editing() {
     this.isEditing = !this.isEditing;
     this.editingText = this.task.name;

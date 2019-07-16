@@ -3,7 +3,7 @@
         <input [(ngModel)]="task.isDone" type="checkbox">
         <span> {{ task.name }} </span>
         <button (click)="editing()">Edit</button>
-        <button>Delete</button>
+        <button (click)="deleting()">Delete</button>
     </div>
     <div *ngIf="isEditing">
         <input [(ngModel)]="editingText" type="text">
