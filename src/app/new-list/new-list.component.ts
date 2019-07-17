@@ -19,5 +19,4 @@ export class NewListComponent implements OnInit {
     this.createList.emit(this.text);
     this.text = "";
   }
-
 }

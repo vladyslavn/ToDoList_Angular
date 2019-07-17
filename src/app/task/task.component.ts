@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Task } from '../objects/Task';
 
 @Component({
@@ -6,7 +6,7 @@ import { Task } from '../objects/Task';
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.css']
 })
-export class TaskComponent implements OnInit {
+export class TaskComponent {
 
   @Input() task : Task;
 
@@ -15,14 +15,6 @@ export class TaskComponent implements OnInit {
   isEditing : boolean = false;
   editingText : string;
 
-  constructor() { 
-    
-  }
-
-  ngOnInit() {
-    
-  }
-  
   deleting() {
     this.deleteTask.emit(this.task);
   }

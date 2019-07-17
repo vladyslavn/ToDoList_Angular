@@ -1,2 +1,2 @@
-<app-lists></app-lists>
-<app-tasks></app-tasks>
+<app-lists (select)="onSelect($event)" [lists]="lists"></app-lists>
+<app-tasks [list]="selectedlist"></app-tasks>

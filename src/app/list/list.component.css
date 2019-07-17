@@ -1,0 +1,7 @@
+:host.active > div {
+    background-color: rgb(140, 140, 255);
+}
+
+div {
+    cursor: pointer;
+}

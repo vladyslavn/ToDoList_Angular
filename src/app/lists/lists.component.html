@@ -1,9 +1,11 @@
 <h2>Lists</h2>
 
 <app-list 
-    (deleteList)="deleteList($event)" 
     *ngFor="let list of lists" 
-    [list]="list">
+    (deleteList)="deleteList($event)" 
+    [class.active]="list === selectedList"
+    [list]="list"
+    (click)="onSelect(list)">
 </app-list>
 
 <app-new-list

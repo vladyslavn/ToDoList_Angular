@@ -1,8 +1,8 @@
-<h2>Tasks</h2>
+<h2>Tasks {{list.name}}</h2>
 
 <app-task 
-    (deleteTask)="deleteTask($event)" 
     *ngFor="let task of tasks" 
+    (deleteTask)="deleteTask($event)" 
     [task]="task">
 </app-task>
 

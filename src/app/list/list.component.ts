@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { List } from '../objects/List';
 
 @Component({
@@ -6,20 +6,13 @@ import { List } from '../objects/List';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css']
 })
-export class ListComponent implements OnInit {
+export class ListComponent {
 
   @Input() list : List;
 
   @Output() deleteList = new EventEmitter<List> ();
 
-  constructor() { }
-
-  
-  ngOnInit() {
-  }
-
   deleting() {
     this.deleteList.emit(this.list);
   }
-
 }
