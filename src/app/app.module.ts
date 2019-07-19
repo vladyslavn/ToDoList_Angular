@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { TaskModuleModule } from './task-module/task-module.module';
 import { ListModuleModule } from './list-module/list-module.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { ListModuleModule } from './list-module/list-module.module';
     TaskModuleModule,
     BrowserModule,
     FormsModule,
-    ListModuleModule
+    ListModuleModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

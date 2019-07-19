@@ -12,12 +12,12 @@ import { NewTaskComponent } from './new-task/new-task.component';
   declarations: [
     NewTaskComponent,
     TasksComponent,
-    TaskComponent
+    TaskComponent,
   ],
   imports: [
     CommonModule,
     BrowserModule,
-    FormsModule
+    FormsModule,
   ],
   exports: [
     TasksComponent

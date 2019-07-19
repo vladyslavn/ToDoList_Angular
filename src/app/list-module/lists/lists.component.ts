@@ -1,5 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { List } from '../../objects/List';
+import { ListService } from 'src/app/services/list-service';
+import { TaskService } from 'src/app/services/task-service';
 
 @Component({
   selector: 'app-lists',
@@ -13,61 +15,49 @@ export class ListsComponent implements OnInit {
   lists : Array<List> = new Array();
 
   selectedList: List;
+
+  constructor(
+    private listService: ListService,
+    private taskService: TaskService) {}
   
   ngOnInit() {
-    fetch("http://localhost:3000/lists", {
-      method: 'GET',
-    }).then(response => response.json()
-    .then((data) => {
+    this.listService.getLists()
+    .subscribe(<List>(data) => {
       this.lists = data;
-      this.onSelect(this.lists[0]);
-    }));
-    
+      if (this.lists.length == 0) {
+        this.createList("master");
+      } else {
+        this.onSelect(this.lists[0]);
+      }
+    });
   }
 
   deleteList(list : List) {
-    if (this.lists.length == 1) {
-      this.createList("master");
-    }
-    this.lists.splice(this.lists.indexOf(list), 1);
-    fetch("http://localhost:3000/lists/" + list.id, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
+    this.listService.deleteListById(list.id)
+    .subscribe(() => {
+      this.lists.splice(this.lists.indexOf(list), 1);
+      if (this.lists.length == 0) {
+        this.createList("master");
+      } else {
+        this.onSelect(this.lists[0]);
       }
-    })
-    .then(response => response.json());
+    });
 
-    fetch("http://localhost:3000/tasks", {
-      method: 'GET',
-    }).then(response => response.json()
-    .then((data) => {
-      let tasks = data.filter(t => list.id == t.parentId);
-      tasks.forEach(t => {
-        fetch("http://localhost:3000/tasks/" + t.id, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        })
-        .then(response => response.json());
+    this.taskService.getTaskByListId(list.id)
+    .subscribe(<Task>(ts) => {
+      ts.forEach(t => {
+        this.taskService.deleteTaskById(t.id)
+        .subscribe();
       });
-    }));
-    this.onSelect(this.lists[0]);
+    });
   }
 
   createList(text : string) {
-    fetch("http://localhost:3000/lists", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name: text })
-    })
-    .then(response => {
-      return response.json();
-    }).then(list => {this.lists.push(list); 
-      this.onSelect(this.lists[this.lists.length - 1]);});
+    this.listService.createList({name: text})
+    .subscribe(<List>(list) => {
+      this.lists.push(list);
+      this.onSelect(this.lists[this.lists.length - 1]);
+    });
   }
 
   onSelect(list : List) {
