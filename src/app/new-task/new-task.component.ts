@@ -13,6 +13,7 @@ export class NewTaskComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
   }
 
   addNewTask() {

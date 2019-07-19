@@ -1,4 +1,4 @@
-import { OnInit, Component } from '@angular/core';
+import { Component, Output, EventEmitter} from '@angular/core';
 import { List } from './objects/List';
 
 @Component({
@@ -6,22 +6,12 @@ import { List } from './objects/List';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'ToDoList';
 
   selectedlist : List;
 
   lists : Array<List> = new Array<List>();
-
-  constructor() { }
-
-  ngOnInit() {
-    this.lists.push(
-      new List(1, "master"),
-      new List(2, "second"),
-      new List(3, "third")
-    );
-  }
 
   onSelect(list : List) {
     this.selectedlist = list;

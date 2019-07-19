@@ -11,6 +11,7 @@ export class TaskComponent {
   @Input() task : Task;
 
   @Output() deleteTask = new EventEmitter<Task> ();
+  @Output() updateTask = new EventEmitter<Task> ();
 
   isEditing : boolean = false;
   editingText : string;
@@ -28,6 +29,12 @@ export class TaskComponent {
     if (this.editingText.trim().length > 0) {
       this.task.name = this.editingText;
       this.isEditing = !this.isEditing;
+      this.updateTask.emit(this.task);
     }
+  }
+
+  doTask() {
+    this.task.isDone = !this.task.isDone;
+    this.updateTask.emit(this.task);
   }
 }

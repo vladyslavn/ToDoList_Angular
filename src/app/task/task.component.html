@@ -1,6 +1,9 @@
 <div [ngClass]="{checked: task.isDone}">
     <div *ngIf="!isEditing">
-        <input [(ngModel)]="task.isDone" type="checkbox">
+        <input 
+            [(ngModel)]="task.isDone" 
+            type="checkbox"
+            (click)="doTask()">
         <span> {{ task.name }} </span>
         <button (click)="editing()">Edit</button>
         <button (click)="deleting()">Delete</button>

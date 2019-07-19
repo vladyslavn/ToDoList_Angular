@@ -8,27 +8,68 @@ import { List } from '../objects/List';
 })
 export class ListsComponent implements OnInit {
 
-  @Input() lists : Array<List> = new Array();
   @Output() select = new EventEmitter<List>();
   
+  lists : Array<List> = new Array();
+
   selectedList: List;
   
   constructor() { }
 
   ngOnInit() {
-    this.selectedList = this.lists[0];
-    this.select.emit(this.selectedList);
+    fetch("http://localhost:3000/lists", {
+      method: 'GET',
+    }).then(response => response.json()
+    .then((data) => {
+      this.lists = data;
+      this.onSelect(this.lists[0]);
+    }));
+    
   }
 
-  deleteList(lists : List) {
-    this.lists.splice(this.lists.indexOf(lists), 1);
-    if (this.lists.length == 0) {
-      this.ngOnInit();
+  deleteList(list : List) {
+    if (this.lists.length == 1) {
+      this.createList("master");
     }
+    this.lists.splice(this.lists.indexOf(list), 1);
+    fetch("http://localhost:3000/lists/" + list.id, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    .then(response => response.json());
+
+    fetch("http://localhost:3000/tasks", {
+      method: 'GET',
+    }).then(response => response.json()
+    .then((data) => {
+      let tasks = data.filter(t => list.id == t.parentId);
+      tasks.forEach(t => {
+        fetch("http://localhost:3000/tasks/" + t.id, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        })
+        .then(response => response.json());
+      });
+    }));
+    this.onSelect(this.lists[0]);
   }
 
   createList(text : string) {
-    this.lists.push(new List(1, text));
+    fetch("http://localhost:3000/lists", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name: text })
+    })
+    .then(response => {
+      return response.json();
+    }).then(list => {this.lists.push(list); 
+      this.onSelect(this.lists[this.lists.length - 1]);});
   }
 
   onSelect(list : List) {
