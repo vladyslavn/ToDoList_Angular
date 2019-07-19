@@ -4,26 +4,18 @@ import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { TaskComponent } from './task/task.component';
-import { NewTaskComponent } from './new-task/new-task.component';
-import { TasksComponent } from './tasks/tasks.component';
-import { ListComponent } from './list/list.component';
-import { ListsComponent } from './lists/lists.component';
-import { NewListComponent } from './new-list/new-list.component';
+import { TaskModuleModule } from './task-module/task-module.module';
+import { ListModuleModule } from './list-module/list-module.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TaskComponent,
-    NewTaskComponent,
-    TasksComponent,
-    ListComponent,
-    ListsComponent,
-    NewListComponent,
   ],
   imports: [
+    TaskModuleModule,
     BrowserModule,
-    FormsModule
+    FormsModule,
+    ListModuleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

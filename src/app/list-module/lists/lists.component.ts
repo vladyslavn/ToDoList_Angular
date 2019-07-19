@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { List } from '../objects/List';
+import { List } from '../../objects/List';
 
 @Component({
   selector: 'app-lists',
@@ -14,8 +14,6 @@ export class ListsComponent implements OnInit {
 
   selectedList: List;
   
-  constructor() { }
-
   ngOnInit() {
     fetch("http://localhost:3000/lists", {
       method: 'GET',

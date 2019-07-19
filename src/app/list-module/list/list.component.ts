@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { List } from '../objects/List';
+import { List } from '../../objects/List';
 
 @Component({
   selector: 'app-list',
