@@ -20,7 +20,8 @@ export class ListsComponent implements OnInit {
   constructor(
     private listService: ListService,
     private taskService: TaskService,
-    private route: ActivatedRoute) {}
+    private activeRoute: ActivatedRoute,
+    private router: Router) {}
   
   ngOnInit() {
     this.listService.getLists()
@@ -29,15 +30,17 @@ export class ListsComponent implements OnInit {
       if (this.lists.length == 0) {
         this.createList("master");
       } else {
-        this.onSelect(this.lists[0]);
+        let id = +this.activeRoute.snapshot.paramMap.get('id');
+        for (let i = 0; i < this.lists.length; i++) {
+          if (id == this.lists[i].id) {
+            this.onSelect(this.lists[i]);
+            break;
+          } else if (i + 1 >= this.lists.length) {
+            this.onSelect(this.lists[0]);
+          }
+        }
       }
     });
-    let snapshot = this.route.snapshot;
-    this.route.params.subscribe(p => console.log('params', p));
-    // debugger;
-    const id = +snapshot.paramMap.get('id');
-    console.log(id);
-    this.listService.getListById(id).subscribe(<List>(data) => this.onSelect(data));
   }
 
   deleteList(list : List) {
@@ -73,5 +76,6 @@ export class ListsComponent implements OnInit {
   onSelect(list : List) {
     this.selectedList = list;
     this.select.emit(list);
+    this.router.navigate(['/list', this.selectedList.id]);
   }
 }

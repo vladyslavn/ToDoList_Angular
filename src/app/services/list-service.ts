@@ -28,9 +28,4 @@ export class ListService {
         const url = this.host + "/lists/";
         return this.http.get(url, this.httpOption);
     }
-
-    getListById(id) {
-        const url = this.host + "/lists/" + id;
-        return this.http.get(url, this.httpOption);
-    }
 }

@@ -11,7 +11,7 @@ import { MainComponent } from './main/main.component';
 
 const routes: Routes = [
   { path: 'list/:id', component: MainComponent },
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: 'list/1' }
 ];
 
 @NgModule({

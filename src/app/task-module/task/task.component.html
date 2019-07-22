@@ -1,4 +1,4 @@
-<div [ngClass]="{checked: task.isDone}">
+<div class="task" [ngClass]="{checked: task.isDone}">
     <div *ngIf="!isEditing">
         <input 
             [(ngModel)]="task.isDone" 

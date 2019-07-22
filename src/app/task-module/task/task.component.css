@@ -1,4 +1,8 @@
 .checked {
     text-decoration: line-through;
-    width: 30%;
+}
+.task {
+    padding: 10px 20px;
+    margin: 10px;
+    background-color: rgb(250, 223, 215);
 }
