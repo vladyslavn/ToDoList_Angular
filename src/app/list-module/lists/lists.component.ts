@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { List } from '../../objects/List';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ListService } from 'src/app/services/list-service';
 import { TaskService } from 'src/app/services/task-service';
 
@@ -18,7 +19,8 @@ export class ListsComponent implements OnInit {
 
   constructor(
     private listService: ListService,
-    private taskService: TaskService) {}
+    private taskService: TaskService,
+    private route: ActivatedRoute) {}
   
   ngOnInit() {
     this.listService.getLists()
@@ -30,6 +32,12 @@ export class ListsComponent implements OnInit {
         this.onSelect(this.lists[0]);
       }
     });
+    let snapshot = this.route.snapshot;
+    this.route.params.subscribe(p => console.log('params', p));
+    // debugger;
+    const id = +snapshot.paramMap.get('id');
+    console.log(id);
+    this.listService.getListById(id).subscribe(<List>(data) => this.onSelect(data));
   }
 
   deleteList(list : List) {

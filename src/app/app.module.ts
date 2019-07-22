@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MainComponent } from './main/main.component';
 
 const routes: Routes = [
+  { path: 'list/:id', component: MainComponent },
   { path: '**', redirectTo: '' }
 ];
 
