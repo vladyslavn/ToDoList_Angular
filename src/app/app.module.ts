@@ -7,17 +7,24 @@ import { AppComponent } from './app.component';
 import { TaskModuleModule } from './task-module/task-module.module';
 import { ListModuleModule } from './list-module/list-module.module';
 import { HttpClientModule } from '@angular/common/http';
+import { MainComponent } from './main/main.component';
+
+const routes: Routes = [
+  { path: '**', redirectTo: '' }
+];
 
 @NgModule({
   declarations: [
     AppComponent,
+    MainComponent,
   ],
   imports: [
     TaskModuleModule,
     BrowserModule,
     FormsModule,
     ListModuleModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [],
   bootstrap: [AppComponent]

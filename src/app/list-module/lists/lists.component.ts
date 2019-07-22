@@ -39,15 +39,17 @@ export class ListsComponent implements OnInit {
       if (this.lists.length == 0) {
         this.createList("master");
       } else {
-        this.onSelect(this.lists[0]);
+        this.onSelect(this.lists[0])
       }
     });
 
-    this.taskService.getTaskByListId(list.id)
+    this.taskService.getTasksByListId(list.id)
     .subscribe(<Task>(ts) => {
       ts.forEach(t => {
-        this.taskService.deleteTaskById(t.id)
-        .subscribe();
+        if (t.parentId == list.id) {
+          this.taskService.deleteTaskById(t.id)
+          .subscribe();
+        }
       });
     });
   }

@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Injectable } from '@angular/core';
+import { filter } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -29,7 +30,7 @@ export class TaskService {
         return this.http.put(url, task, this.httpOption);
     }
 
-    getTaskByListId(id) {
+    getTasksByListId(id) {
         const url = this.host + "/tasks/";
         return this.http.get(url, this.httpOption);
     }

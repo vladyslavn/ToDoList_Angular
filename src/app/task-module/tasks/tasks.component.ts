@@ -18,8 +18,15 @@ export class TasksComponent {
   @Input()
   set list(list : List) {
     if (list != null) {
-      this.taskService.getTaskByListId(list.id)
-      .subscribe(<Task>(data) => this.tasks = data.filter(t => t.parentId == list.id));
+      this.taskService.getTasksByListId(list.id)
+      .subscribe(<Task>(ts) => {
+        this.tasks = new Array();
+        ts.forEach(t => {
+          if (t.parentId == list.id) {
+            this.tasks.push(t);
+          }
+        });
+      });
       this._list = list;
     }
   }

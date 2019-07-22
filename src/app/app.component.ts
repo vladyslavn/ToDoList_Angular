@@ -7,13 +7,4 @@ import { List } from './objects/List';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'ToDoList';
-
-  selectedlist : List;
-
-  lists : Array<List> = new Array<List>();
-
-  onSelect(list : List) {
-    this.selectedlist = list;
-  }
 }
