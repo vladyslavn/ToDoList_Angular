@@ -31,7 +31,7 @@ export class TaskService {
     }
 
     getTasksByListId(id) {
-        const url = this.host + "/tasks/";
+        const url = this.host + "/tasks?parentId=" + id;
         return this.http.get(url, this.httpOption);
     }
 }

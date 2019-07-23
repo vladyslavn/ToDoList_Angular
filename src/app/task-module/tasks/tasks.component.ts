@@ -20,12 +20,7 @@ export class TasksComponent {
     if (list != null) {
       this.taskService.getTasksByListId(list.id)
       .subscribe(<Task>(ts) => {
-        this.tasks = new Array();
-        ts.forEach(t => {
-          if (t.parentId == list.id) {
-            this.tasks.push(t);
-          }
-        });
+        this.tasks = ts;
       });
       this._list = list;
     }
