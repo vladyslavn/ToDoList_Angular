@@ -15,8 +15,8 @@ export class TaskService {
 
     constructor (private http: HttpClient) {}
     
-    deleteTaskById(id) {
-        const url = this.host + "/tasks/" + id;
+    deleteTask(task) {
+        const url = this.host + "/tasks/" + task.id;
         return this.http.delete(url);
     }
 

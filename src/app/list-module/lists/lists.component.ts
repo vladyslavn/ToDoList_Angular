@@ -57,7 +57,7 @@ export class ListsComponent implements OnInit {
     this.taskService.getTasksByListId(list.id)
     .subscribe(<Task>(ts) => {
       ts.forEach(t => {
-        this.taskService.deleteTaskById(t.id)
+        this.taskService.deleteTask(t)
         .subscribe();
       });
     });

@@ -12,6 +12,7 @@ export class TasksComponent {
 
   _list : List;
   tasks : Array<Task> = new Array();
+  elemText : String = "task";
 
   constructor(private taskService: TaskService) {}
 
@@ -27,7 +28,7 @@ export class TasksComponent {
   }
 
   deleteTask(task : Task) {
-    this.taskService.deleteTaskById(task.id)
+    this.taskService.deleteTask(task)
     .subscribe( () =>
       this.tasks.splice(this.tasks.indexOf(task), 1)
       );

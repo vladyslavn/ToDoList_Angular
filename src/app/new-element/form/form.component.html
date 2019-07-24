@@ -1,0 +1,11 @@
+<form>
+    <input 
+        type="text" 
+        name="text"
+        [(ngModel)]="text" 
+        placeholder="Enter a name of {{ elemText }}">
+    <button 
+        *ngIf="text.trim().length > 0" 
+        type="submit" 
+        (click)="addNewElement()">Add {{ elemText }}</button>
+</form>

@@ -8,6 +8,7 @@
     (click)="onSelect(list)">
 </app-list>
 
-<app-new-list
-    (createList)="createList($event)">
-</app-new-list>
+<app-form
+    [elemText]="elemText"
+    (createElem)="createList($event)">
+</app-form>

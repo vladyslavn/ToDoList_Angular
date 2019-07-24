@@ -6,7 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { TaskComponent } from './task/task.component';
 import { TasksComponent } from './tasks/tasks.component';
 import { NewTaskComponent } from './new-task/new-task.component';
-
+import { NewElementModule } from '../new-element/new-element.module';
 
 @NgModule({
   declarations: [
@@ -18,6 +18,7 @@ import { NewTaskComponent } from './new-task/new-task.component';
     CommonModule,
     BrowserModule,
     FormsModule,
+    NewElementModule
   ],
   exports: [
     TasksComponent

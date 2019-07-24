@@ -8,6 +8,7 @@ import { TaskModuleModule } from './task-module/task-module.module';
 import { ListModuleModule } from './list-module/list-module.module';
 import { HttpClientModule } from '@angular/common/http';
 import { MainComponent } from './main/main.component';
+import { NewElementModule } from './new-element/new-element.module';
 
 const routes: Routes = [
   { path: 'list/:id', component: MainComponent },
@@ -25,6 +26,7 @@ const routes: Routes = [
     FormsModule,
     ListModuleModule,
     HttpClientModule,
+    NewElementModule,
     RouterModule.forRoot(routes)
   ],
   providers: [],

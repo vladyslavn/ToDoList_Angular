@@ -6,7 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ListsComponent } from './lists/lists.component';
 import { NewListComponent } from './new-list/new-list.component';
 import { ListComponent } from './list/list.component';
-
+import { NewElementModule } from '../new-element/new-element.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +17,8 @@ import { ListComponent } from './list/list.component';
   imports: [
     FormsModule,
     CommonModule,
-    BrowserModule
+    BrowserModule,
+    NewElementModule
   ],
   exports: [
     ListsComponent

@@ -7,6 +7,7 @@
     [task]="task">
 </app-task>
 
-<app-new-task 
-    (createTask)="createTask($event)">
-</app-new-task>
+<app-form
+    [elemText]="elemText"
+    (createElem)="createTask($event)">
+</app-form>
