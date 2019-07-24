@@ -17,8 +17,6 @@ export class ListsComponent implements OnInit {
 
   selectedList: List;
 
-  elemText : String = "list";
-
   constructor(
     private listService: ListService,
     private taskService: TaskService,
@@ -27,50 +25,50 @@ export class ListsComponent implements OnInit {
   
   ngOnInit() {
     this.listService.getLists()
-    .subscribe(<List>(data) => {
-      this.lists = data;
-      if (this.lists.length == 0) {
-        this.createList("master");
-      } else {
-        let id = +this.activeRoute.snapshot.paramMap.get('id');
-        for (let i = 0; i < this.lists.length; i++) {
-          if (id == this.lists[i].id) {
-            this.onSelect(this.lists[i]);
-            break;
-          } else if (i + 1 >= this.lists.length) {
-            this.onSelect(this.lists[0]);
+      .subscribe(<List>(data) => {
+        this.lists = data;
+        if (this.lists.length == 0) {
+          this.createList("master");
+        } else {
+          let id = +this.activeRoute.snapshot.paramMap.get('id');
+          for (let i = 0; i < this.lists.length; i++) {
+            if (id == this.lists[i].id) {
+              this.onSelect(this.lists[i]);
+              break;
+            } else if (i + 1 >= this.lists.length) {
+              this.onSelect(this.lists[0]);
+            }
           }
         }
-      }
-    });
+      });
   }
 
   deleteList(list : List) {
     this.listService.deleteListById(list.id)
-    .subscribe(() => {
-      this.lists.splice(this.lists.indexOf(list), 1);
-      if (this.lists.length == 0) {
-        this.createList("master");
-      } else {
-        this.onSelect(this.lists[0])
-      }
-    });
+      .subscribe(() => {
+        this.lists.splice(this.lists.indexOf(list), 1);
+        if (this.lists.length == 0) {
+          this.createList("master");
+        } else {
+          this.onSelect(this.lists[0])
+        }
+      });
 
     this.taskService.getTasksByListId(list.id)
-    .subscribe(<Task>(ts) => {
-      ts.forEach(t => {
-        this.taskService.deleteTask(t)
-        .subscribe();
+      .subscribe(<Task>(ts) => {
+        ts.forEach(t => {
+          this.taskService.deleteTask(t)
+          .subscribe();
+        });
       });
-    });
   }
 
   createList(text : string) {
     this.listService.createList({name: text})
-    .subscribe(<List>(list) => {
-      this.lists.push(list);
-      this.onSelect(this.lists[this.lists.length - 1]);
-    });
+      .subscribe(<List>(list) => {
+        this.lists.push(list);
+        this.onSelect(this.lists[this.lists.length - 1]);
+      });
   }
 
   onSelect(list : List) {
