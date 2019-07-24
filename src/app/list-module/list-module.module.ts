@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { ListsComponent } from './lists/lists.component';
-import { NewListComponent } from './new-list/new-list.component';
 import { ListComponent } from './list/list.component';
 import { NewElementModule } from '../new-element/new-element.module';
 
@@ -12,7 +11,6 @@ import { NewElementModule } from '../new-element/new-element.module';
   declarations: [
     ListComponent,
     ListsComponent,
-    NewListComponent,
   ],
   imports: [
     FormsModule,
