@@ -17,6 +17,8 @@ export class ListsComponent implements OnInit {
 
   selectedList: List;
 
+  elemText : String = "list";
+
   constructor(
     private listService: ListService,
     private taskService: TaskService,

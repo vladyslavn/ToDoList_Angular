@@ -6,7 +6,7 @@ import { filter } from 'rxjs/operators';
     providedIn: 'root'
 })
 export class TaskService {
-    private host = "http://localhost:3000";
+    private host = "http://localhost:8080";
     private httpOption = {
         headers: new HttpHeaders( {
             'Content-Type': 'application/json'
@@ -31,7 +31,7 @@ export class TaskService {
     }
 
     getTasksByListId(id) {
-        const url = this.host + "/tasks?parentId=" + id;
+        const url = this.host + "/tasks/" + id;
         return this.http.get(url, this.httpOption);
     }
 }

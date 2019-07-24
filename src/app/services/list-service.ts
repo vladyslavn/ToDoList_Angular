@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
     providedIn: 'root'
 })
 export class ListService {
-    private host = "http://localhost:3000";
+    private host = "http://localhost:8080";
     private httpOption = {
         headers: new HttpHeaders( {
             'Content-Type': 'application/json'
