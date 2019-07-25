@@ -2,7 +2,6 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { List } from '../../objects/List';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ListService } from 'src/app/services/list-service';
-import { TaskService } from 'src/app/services/task-service';
 
 @Component({
   selector: 'app-lists',
@@ -19,7 +18,6 @@ export class ListsComponent implements OnInit {
 
   constructor(
     private listService: ListService,
-    private taskService: TaskService,
     private activeRoute: ActivatedRoute,
     private router: Router) {}
   
@@ -52,14 +50,6 @@ export class ListsComponent implements OnInit {
         } else {
           this.onSelect(this.lists[0])
         }
-      });
-
-    this.taskService.getTasksByListId(list.id)
-      .subscribe(<Task>(ts) => {
-        ts.forEach(t => {
-          this.taskService.deleteTask(t)
-          .subscribe();
-        });
       });
   }
 

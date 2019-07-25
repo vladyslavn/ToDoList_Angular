@@ -26,7 +26,7 @@ export class TaskService {
     }
 
     updateTask(task) {
-        const url = this.host + "/tasks/" + task.id;
+        const url = this.host + "/tasks/";
         return this.http.put(url, task, this.httpOption);
     }
 
