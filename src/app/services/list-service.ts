@@ -1,5 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { List } from '../objects/List';
 
 @Injectable({
     providedIn: 'root'
@@ -14,18 +16,18 @@ export class ListService {
 
     constructor (private http: HttpClient) {}
     
-    deleteListById(id) {
+    deleteListById(id): Observable<List> {
         const url = this.host + "/lists/" + id;
-        return this.http.delete(url);
+        return this.http.delete<List>(url);
     }
 
-    createList(list) {
+    createList(list): Observable<List> {
         const url = this.host + "/lists/";
-        return this.http.post(url, list, this.httpOption);
+        return this.http.post<List>(url, list, this.httpOption);
     }
 
-    getLists() {
+    getLists(): Observable<List[]> {
         const url = this.host + "/lists/";
-        return this.http.get(url, this.httpOption);
+        return this.http.get<List[]>(url);
     }
 }

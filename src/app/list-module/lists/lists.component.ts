@@ -2,68 +2,84 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { List } from '../../objects/List';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ListService } from 'src/app/services/list-service';
+import { Observable, combineLatest, Subject, BehaviorSubject } from 'rxjs';
+import { map, tap, switchMap, scan } from 'rxjs/operators';
+
+interface ListAction {
+  (lists: List[]): List[]
+}
+
+const applyAction = (lists, action) => action(lists);
 
 @Component({
   selector: 'app-lists',
   templateUrl: './lists.component.html',
   styleUrls: ['./lists.component.css'],
 })
+
+
 export class ListsComponent implements OnInit {
 
   @Output() select = new EventEmitter<List>();
   
-  lists : Array<List> = new Array();
+  lists$ : Observable<List[]>;
+  activeList$ : Observable<List>;
 
-  selectedList: List;
-
+  actions$: Subject<ListAction> = new BehaviorSubject(lists => lists);
   constructor(
     private listService: ListService,
     private activeRoute: ActivatedRoute,
     private router: Router) {}
   
   ngOnInit() {
-    this.listService.getLists()
-      .subscribe(<List>(data) => {
-        this.lists = data;
-        if (this.lists.length == 0) {
-          this.createList("master");
-        } else {
-          let id = +this.activeRoute.snapshot.paramMap.get('id');
-          for (let i = 0; i < this.lists.length; i++) {
-            if (id == this.lists[i].id) {
-              this.onSelect(this.lists[i]);
-              break;
-            } else if (i + 1 >= this.lists.length) {
-              this.onSelect(this.lists[0]);
-            }
-          }
-        }
-      });
+    let listId$ = this.activeRoute.paramMap.pipe(map(p => +p.get('id')));
+    let lists$ = this.listService.getLists();
+
+    this.activeList$ = combineLatest(listId$, lists$)
+      .pipe(map(([id, lists]) => lists.find(l => l.id == id)));
+
+    this.activeList$.subscribe(this.select.emit);
+
+    this.lists$ = lists$
+      .pipe(
+        switchMap((lists) => {
+          return this.actions$.pipe(
+            scan<ListAction, List[]>(applyAction, lists)
+          )
+        })
+      )
+
+  }
+
+  createList(listName : string) {
+    this.listService.createList({name: listName})
+      .pipe(
+        map(list => lists => [...lists, list]),
+      )
+      .subscribe(action => {
+        this.actions$.next(action)
+      })
   }
 
   deleteList(list : List) {
     this.listService.deleteListById(list.id)
-      .subscribe(() => {
-        this.lists.splice(this.lists.indexOf(list), 1);
-        if (this.lists.length == 0) {
-          this.createList("master");
-        } else {
-          this.onSelect(this.lists[0])
+      .pipe(
+        map(_ => lists => {
+          let index = lists.indexOf(list);
+          return lists.slice(0, index).concat(lists.slice(index + 1));
+        })
+      )
+      .subscribe(action => {
+          this.actions$.next(action);
         }
-      });
-  }
-
-  createList(text : string) {
-    this.listService.createList({name: text})
-      .subscribe(<List>(list) => {
-        this.lists.push(list);
-        this.onSelect(this.lists[this.lists.length - 1]);
-      });
+      );
   }
 
   onSelect(list : List) {
-    this.selectedList = list;
-    this.select.emit(list);
-    this.router.navigate(['/list', this.selectedList.id]);
+    this.activeList$.subscribe(list => {
+        this.select.emit(list);
+        this.router.navigate(['/list', list.id]);
+      }
+    );
   }
 }

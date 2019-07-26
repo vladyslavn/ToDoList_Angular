@@ -1,7 +1,7 @@
 <h2>Lists</h2>
 
 <app-list 
-    *ngFor="let list of lists" 
+    *ngFor="let list of lists$ | async" 
     (deleteList)="deleteList($event)" 
     [class.active]="list === selectedList"
     [list]="list"
