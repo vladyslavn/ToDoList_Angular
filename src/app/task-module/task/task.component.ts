@@ -34,7 +34,7 @@ export class TaskComponent {
   }
 
   doTask() {
-    this.task.isDone = !this.task.isDone;
+    this.task.done = !this.task.done;
     this.updateTask.emit(this.task);
   }
 }

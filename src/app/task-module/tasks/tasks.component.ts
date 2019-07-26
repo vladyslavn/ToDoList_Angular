@@ -34,7 +34,7 @@ export class TasksComponent {
   }
 
   createTask(text : string) {
-    this.taskService.createTask({parentId: this._list.id, name: text, isDone: false})
+    this.taskService.createTask({listId: this._list.id, name: text, isDone: false})
       .subscribe(<Task>(task) => this.tasks.push(task));
   }
 

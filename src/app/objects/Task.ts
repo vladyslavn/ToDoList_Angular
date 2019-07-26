@@ -1,13 +1,13 @@
 export class Task {
   id : number;
-  parentId : number;
+  listId : number;
   name : string;
-  isDone : boolean;
+  done : boolean;
 
-  constructor(id, parentId, name, isDone) {
+  constructor(id, listId, name, done) {
     this.id = id;
-    this.parentId = parentId;
+    this.listId = listId;
     this.name = name;
-    this.isDone = isDone;
+    this.done = done;
   }
 }
