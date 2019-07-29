@@ -1,6 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Injectable } from '@angular/core';
 import { filter } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { Task } from '../objects/Task';
+import { TransferState } from '@angular/platform-browser';
 
 @Injectable({
     providedIn: 'root'
@@ -15,23 +18,28 @@ export class TaskService {
 
     constructor (private http: HttpClient) {}
     
-    deleteTask(task) {
+    deleteTask(task): Observable<Task> {
         const url = this.host + "/tasks/" + task.id;
-        return this.http.delete(url);
+        return this.http.delete<Task>(url);
     }
 
-    createTask(task) {
+    createTask(task): Observable<Task> {
         const url = this.host + "/tasks/";
-        return this.http.post(url, task, this.httpOption);
+        return this.http.post<Task>(url, task, this.httpOption);
     }
 
-    updateTask(task) {
+    updateTask(task): Observable<Task> {
         const url = this.host + "/tasks/";
-        return this.http.put(url, task, this.httpOption);
+        return this.http.put<Task>(url, task, this.httpOption);
     }
 
-    getTasksByListId(id) {
+    getTasksByListId(id): Observable<Task[]> {
         const url = this.host + "/tasks/" + id;
-        return this.http.get(url, this.httpOption);
+        return this.http.get<Task[]>(url, this.httpOption);
+    }
+
+    getTasks(): Observable<Task[]> {
+        const url = this.host + "/tasks/";
+        return this.http.get<Task[]>(url, this.httpOption);
     }
 }

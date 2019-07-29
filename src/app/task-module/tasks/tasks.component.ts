@@ -1,41 +1,77 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Task } from '../../objects/Task';
 import { List } from '../../objects/List';
 import { TaskService } from 'src/app/services/task-service';
+import { Observable, combineLatest, BehaviorSubject, Subject } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { map, tap, switchMap, scan } from 'rxjs/operators';
+
+interface TaskAction {
+  (tasks: Task[]): Task[]
+}
+
+const applyAction = (tasks, action) => action(tasks);
 
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.css']
 })
-export class TasksComponent {
+export class TasksComponent implements OnInit {
 
-  _list : List;
-  tasks : Array<Task> = new Array();
+  listId$ : Observable<number>;
+  tasks$ : Observable<Task[]>;
 
-  constructor(private taskService: TaskService) {}
+  listId : number;
 
-  @Input()
-  set list(list : List) {
-    if (list != null) {
-      this.taskService.getTasksByListId(list.id)
-        .subscribe(<Task>(ts) => {
-          this.tasks = ts;
-        });
-      this._list = list;
-    }
+  actions$: Subject<TaskAction> = new BehaviorSubject(tasks => tasks);
+
+  constructor(
+    private taskService: TaskService,
+    private activeRoute: ActivatedRoute) {}
+
+  ngOnInit() {
+    this.listId$ = this.activeRoute.paramMap.pipe(map(p => {
+      this.listId = +p.get('id');
+      console.log(this.listId);
+      return this.listId;
+    }));
+
+    this.listId$
+      .subscribe(() => {
+        this.tasks$ = this.taskService.getTasksByListId(this.listId)
+        .pipe(
+          switchMap((tasks) => {
+            this.actions$ = new BehaviorSubject(tasks => tasks);
+            return this.actions$.pipe(
+              scan<TaskAction, Task[]>(applyAction, tasks)
+            )
+          })
+        )
+      })
   }
 
   deleteTask(task : Task) {
     this.taskService.deleteTask(task)
-      .subscribe( () =>
-        this.tasks.splice(this.tasks.indexOf(task), 1)
+      .pipe(
+        map(_ => tasks => {
+          let index = tasks.indexOf(task);
+          return tasks.slice(0, index).concat(tasks.slice(index + 1));
+        })
+      )
+      .subscribe(action => {
+          this.actions$.next(action);
+        }
       );
   }
 
   createTask(text : string) {
-    this.taskService.createTask({listId: this._list.id, name: text, isDone: false})
-      .subscribe(<Task>(task) => this.tasks.push(task));
+    this.taskService.createTask({listId: this.listId, name: text, isDone: false})
+    .pipe(
+      tap(task => console.log(task)),
+      map(task => tasks => [...tasks, task]),
+    )
+    .subscribe(action => this.actions$.next(action));
   }
 
   updateTask(task : Task) {

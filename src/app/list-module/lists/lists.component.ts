@@ -20,8 +20,6 @@ const applyAction = (lists, action) => action(lists);
 
 export class ListsComponent implements OnInit {
 
-  @Output() select = new EventEmitter<List>();
-  
   lists$ : Observable<List[]>;
   activeList$ : Observable<List>;
 
@@ -37,8 +35,6 @@ export class ListsComponent implements OnInit {
 
     this.activeList$ = combineLatest(listId$, lists$)
       .pipe(map(([id, lists]) => lists.find(l => l.id == id)));
-
-    this.activeList$.subscribe(this.select.emit);
 
     this.lists$ = lists$
       .pipe(
