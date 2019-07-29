@@ -76,10 +76,6 @@ export class ListsComponent implements OnInit {
   }
 
   onSelect(list : List) {
-    this.activeList$.subscribe(list => {
-        this.select.emit(list);
-        this.router.navigate(['/list', list.id]);
-      }
-    );
+    this.router.navigate(['/list', list.id]);
   }
 }

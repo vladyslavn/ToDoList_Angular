@@ -10,11 +10,4 @@ export class MainComponent {
 
   title = 'ToDoList';
 
-  selectedlist : List;
-
-  lists : Array<List> = new Array<List>();
-
-  onSelect(list : List) {
-    this.selectedlist = list;
-  }
 }
