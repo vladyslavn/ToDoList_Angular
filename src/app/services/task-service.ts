@@ -38,8 +38,4 @@ export class TaskService {
         return this.http.get<Task[]>(url, this.httpOption);
     }
 
-    getTasks(): Observable<Task[]> {
-        const url = this.host + "/tasks/";
-        return this.http.get<Task[]>(url, this.httpOption);
-    }
 }

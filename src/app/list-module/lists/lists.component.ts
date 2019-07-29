@@ -50,7 +50,10 @@ export class ListsComponent implements OnInit {
   createList(listName : string) {
     this.listService.createList({name: listName})
       .pipe(
-        map(list => lists => [...lists, list]),
+        map(list => lists => {
+          this.onSelect(list);
+          return [...lists, list]
+        }),
       )
       .subscribe(action => {
         this.actions$.next(action)
@@ -62,7 +65,13 @@ export class ListsComponent implements OnInit {
       .pipe(
         map(_ => lists => {
           let index = lists.indexOf(list);
-          return lists.slice(0, index).concat(lists.slice(index + 1));
+          let l = lists.slice(0, index).concat(lists.slice(index + 1));
+          if (l.length <= 0) {
+            this.createList("master");
+          } else {
+            this.onSelect(l[0]);
+          }
+          return l;
         })
       )
       .subscribe(action => {

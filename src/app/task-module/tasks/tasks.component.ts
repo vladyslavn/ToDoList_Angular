@@ -31,11 +31,11 @@ export class TasksComponent implements OnInit {
     private activeRoute: ActivatedRoute) {}
 
   ngOnInit() {
-    this.listId$ = this.activeRoute.paramMap.pipe(map(p => {
-      this.listId = +p.get('id');
-      console.log(this.listId);
-      return this.listId;
-    }));
+    this.listId$ = this.activeRoute.paramMap.pipe(
+      map(p => {
+        this.listId = +p.get('id');
+        return this.listId;
+      }));
 
     this.listId$
       .subscribe(() => {
