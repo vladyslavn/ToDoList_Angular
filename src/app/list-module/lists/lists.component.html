@@ -3,7 +3,7 @@
 <app-list 
     *ngFor="let list of lists$ | async" 
     (deleteList)="deleteList($event)" 
-    [class.active]="(activeList$ | async)?.id === list.id"
+    [class.active]="(selectedList$ | async)?.id === list.id"
     [list]="list"
     (click)="onSelect(list)">
 </app-list>

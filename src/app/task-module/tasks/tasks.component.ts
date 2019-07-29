@@ -40,14 +40,14 @@ export class TasksComponent implements OnInit {
     this.listId$
       .subscribe(() => {
         this.tasks$ = this.taskService.getTasksByListId(this.listId)
-        .pipe(
-          switchMap((tasks) => {
-            this.actions$ = new BehaviorSubject(tasks => tasks);
-            return this.actions$.pipe(
-              scan<TaskAction, Task[]>(applyAction, tasks)
-            )
-          })
-        )
+          .pipe(
+            switchMap((tasks) => {
+              this.actions$ = new BehaviorSubject(tasks => tasks);
+              return this.actions$.pipe(
+                scan<TaskAction, Task[]>(applyAction, tasks)
+              )
+            })
+          )
       })
   }
 
@@ -68,7 +68,6 @@ export class TasksComponent implements OnInit {
   createTask(text : string) {
     this.taskService.createTask({listId: this.listId, name: text, isDone: false})
     .pipe(
-      tap(task => console.log(task)),
       map(task => tasks => [...tasks, task]),
     )
     .subscribe(action => this.actions$.next(action));
